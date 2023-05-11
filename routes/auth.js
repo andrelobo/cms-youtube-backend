@@ -12,13 +12,13 @@ router.post("/register", async (req, res) => {
   if (!name || !email || !password)
     return res
       .status(400)
-      .json({ error: `Please enter all the required field.` });
+      .json({ error: `Por favor, preencha todos os campos obrigatórios.` });
 
   // name validation.
   if (name.length > 25)
     return res
       .status(400)
-      .json({ error: "name can only be less than 25 characters" });
+      .json({ error: "O nome só pode ter menos de 25 caracteres." });
 
   // email validation.
   const emailReg =
@@ -27,19 +27,19 @@ router.post("/register", async (req, res) => {
   if (!emailReg.test(email))
     return res
       .status(400)
-      .json({ error: "please enter a valid email address." });
+      .json({ error: "Por favor, insira um endereço de e-mail válido." });
 
   // validation of password.
   if (password.length < 6)
     return res
       .status(400)
-      .json({ error: "password must be atleast 6 characters long" });
+      .json({ error: "A senha deve ter pelo menos 6 caracteres." });
   try {
     const doesUserAlreadyExist = await User.findOne({ email });
 
     if (doesUserAlreadyExist)
       return res.status(400).json({
-        error: `a user with that email [${email}] already exists so please try another one.`,
+        error: `Um usuário com esse email [${email}] já existe, por favor tente outro.`,
       });
 
     const hashedPassword = await bcrypt.hash(password, 12);
@@ -63,7 +63,7 @@ router.post("/login", async (req, res) => {
   if (!email || !password)
     return res
       .status(400)
-      .json({ error: "please enter all the required fields!" });
+      .json({ error: "Por favor, preencha todos os campos obrigatórios!" });
 
   // email validation.
   const emailReg =
